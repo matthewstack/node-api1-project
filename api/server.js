@@ -46,4 +46,21 @@ server.get("/api/users", async (req, res) => {
   }
 });
 
+server.get("/api/users/:id", async (req, res) => {
+  try {
+    const theUser = await User.findById(req.params.id);
+    if (!theUser) {
+      res.status(404).json({
+        message: "The user with the specified ID does not exist",
+      });
+    } else {
+      res.json(theUser);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "The users information could not be retrieved",
+    });
+  }
+});
+
 module.exports = server; // EXPORT YOUR SERVER instead of {}
